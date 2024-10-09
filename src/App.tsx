@@ -1,6 +1,6 @@
 // index.tsx
 import { useContext } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { AuthContext } from "./contexts/Auth/AuthContext";
 import { RequireAuth } from "./contexts/Auth/RequireAuth";
 import { Home } from "./pages/Home";
@@ -8,13 +8,7 @@ import Login from "./pages/Login";
 import { Private } from "./pages/Private";
 
 function App() {
-  const { user, signout } = useContext(AuthContext);
-  const location = useLocation();
-
-  const handleLogout = async () => {
-    await signout();
-    window.location.href = window.location.href; // Redireciona após logout
-  };
+  const { user } = useContext(AuthContext);
 
   return (
     <div className="App">
@@ -41,7 +35,4 @@ function App() {
 }
 
 export default App;
-
-// Adicione esta linha para evitar o erro TS1208
-export { };
 
