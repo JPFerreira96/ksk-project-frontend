@@ -7,35 +7,31 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const [user, setUser] = useState<User | null>(null);
     const api = useApi();
 
-    useEffect(()=>{
+    useEffect(() => {
         const validateToken = async () => {
             const storageData = localStorage.getItem('authToken');
-            if(storageData){
+            if (storageData) {
                 const data = await api.validateToken(storageData);
-                if(data.user){
+                if (data.user) {
                     setUser(data.user);
                 }
             }
         }
         validateToken();
-
     }, [api]);
 
     const signin = async (email: string, password: string) => {
-        // aqui foi criada a função da qual precisa-se dos dados para poder serem validados. Requisição ao BackEnd
         const data = await api.signin(email, password);
-
         if (data.user && data.token) {
             setUser(data.user);
             setToken(data.token);
-
             return true;
         }
-
         return false;
     }
 
     const signout = async () => {
+        console.log("signout está sendo executada.");
         setUser(null);
         setToken('');
         await api.logout();
@@ -43,7 +39,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     const setToken = (token: string) => {
         localStorage.setItem('authToken', token);
-
     }
 
     return (
@@ -51,4 +46,4 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
             {children}
         </AuthContext.Provider>
     );
-};
+}

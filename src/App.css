@@ -1,5 +1,51 @@
+/* /* Estilos gerais do body */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilos do header */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-content h1 {
+  margin-left: 20px;
+}
+
+.icons {
+  margin-right: 20px;
+}
+
+.icon {
+  text-decoration: none;
+  color: #fff;
+  font-size: 24px;
+  margin-left: 15px;
+}
+
+.icon:hover {
+  color: #ccc;
+}
+
+/* Estilos adicionais para o layout */
 .App {
-  text-align: center;
+  padding: 20px;
+}
+
+/* Estilos de navegação */
+nav {
+  margin: 20px 0;
 }
 
 nav a {
@@ -10,4 +56,46 @@ nav a {
 
 nav a:hover {
   text-decoration: none;
+}
+
+/* Media Queries para responsividade */
+
+/* Para telas de 768px ou menores (tablets e celulares) */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-content h1 {
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  .icons {
+    margin-right: 0;
+    margin-top: 10px;
+  }
+
+  .icon {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+
+  nav a {
+    display: block;
+    margin: 10px 0;
+  }
+}
+
+/* Para telas de 480px ou menores (celulares menores) */
+@media (max-width: 480px) {
+  .icon {
+    font-size: 18px;
+    margin-left: 5px;
+  }
+
+  nav a {
+    font-size: 14px;
+  }
 }

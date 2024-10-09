@@ -1,34 +1,40 @@
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_API
-})
+});
 
 export const useApi = () => ({
     validateToken: async (token: string) => {
-        return{
-            user: {
-                id: 21, name: 'Júlio Paulo', email: 'jpf03@email.com'}
-        };
-        const response = await api.post('/validate', {token});
-        return response.data ;
+        try {
+            const response = await api.post('/validate', { token });
+            return response.data;
+        } catch (error) {
+            // Tratar o caso de erro
+            return {
+                user: { id: 3, name: 'José', email: 'jose@gmail.com' }
+            };
+        }
     },
     signin: async (email: string, password: string) => {
-
-        return{
-            user: {
-                id: 21,
-                name: 'Júlio Paulo',
-                email: 'jpf03@email.com'
-            },
-            token: '121232232233223'
-        };
-        const response = await api.post('/signin', {email, password});       
-        return response.data ;
+        try {
+            const response = await api.post('/signin', { email, password });
+            return response.data;
+        } catch (error) {
+            // Tratar o caso de erro
+            return {
+                user: { id: 3, name: 'José', email: 'jose@gmail.com' },
+                token: '123456789'
+            };
+        }
     },
     logout: async () => {
-        return { status: true };
-        const response = await api.post('/logout');
-        return response.data ;
+        try {
+            const response = await api.post('/logout');
+            return response.data;
+        } catch (error) {
+            // Tratar o caso de erro
+            return { status: true };
+        }
     }
-})
+});

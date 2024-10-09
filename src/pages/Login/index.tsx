@@ -1,51 +1,85 @@
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/Auth/AuthContext";
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/Auth/AuthContext';
+import {
+    Button,
+    ErrorMessage,
+    ForgotPassword,
+    Input,
+    InputGroup,
+    LoginBox,
+    LoginContainer,
+    Subtitle,
+    Title,
+} from './LoginStyles';
 
-export const Login = () => {
+
+
+const Login = () => {
     const auth = useContext(AuthContext);
-    const navigate = useNavigate()
-
     const [email, setEmail] = useState('');
-    const [password, setPassWord] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState<null | string>(null);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
-        if(email && password){
+        setLoading(true);
+        try {
             const isLogged = await auth.signin(email, password);
-
-            if(isLogged){
-                navigate('/')
+            if (isLogged) {
+                navigate('/private');
+            } else {
+                setError('Não foi possível fazer o login.');
             }
-            else{
-                alert('Sem sucesso!!')
-            }
+        } catch (error) {
+            setError('Ocorreu um erro ao fazer o login.');
+        } finally {
+            setLoading(false);
         }
-    }
+    };
+
+    const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
+    };
+
+    const handlePasswordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+    };
 
     return (
-        <div>
-            <h2>Página Fechada</h2>
+        <LoginContainer>
+            <LoginBox>
+                <Title>Bem-vindo</Title>
+                <Subtitle>Por favor, faça o login para continuar</Subtitle>
+                {error && <ErrorMessage>{error}</ErrorMessage>}
+                <form>
+                    <InputGroup>
+                        <Input
+                            type="email"
+                            value={email}
+                            onChange={handleEmailInput}
+                            placeholder="E-mail"
+                            required
+                        />
+                    </InputGroup>
+                    <InputGroup>
+                        <Input
+                            type="password"
+                            value={password}
+                            onChange={handlePasswordInput}
+                            placeholder="Senha"
+                            required
+                        />
+                    </InputGroup>
+                    <Button type="button" onClick={handleLogin} disabled={loading}>
+                        {loading ? 'Entrando...' : 'Entrar'}
+                    </Button>
+                </form>
+                <ForgotPassword>Esqueceu sua senha?</ForgotPassword>
+            </LoginBox>
+        </LoginContainer>
+    );
+};
 
-            <input 
-                type="text"
-                name="email"
-                id="email"
-                value={email}
-                onChange={e=> setEmail(e.target.value)}
-                placeholder='Digitte o seu e-mail'
-            />
-            <input 
-                type="password"
-                name="password"
-                id="password"
-                value={password}
-                onChange={e=> setPassWord(e.target.value)}
-                placeholder='Digitte o seu e-mail'
-            />
-
-            <button onClick={handleLogin}>Fazer Login</button>
-        </div>
-
-    )
-
-}
+export default Login;
